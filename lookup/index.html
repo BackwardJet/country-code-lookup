@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Country Code Lookup</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <span class="glyphicon glyphicon-phone-alt" id="logo"></span>
+            <h2>Country Code Lookup</h2>
+            
+            <form action="/lookup.php" method="post">
+              <div class="form-group col-md-12 has-feedback has-clear">
+                <label for="ANI" class="">Phone Number*</label>
+                <div class="input-group">
+                  <div class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></div>
+                  <input name="ANI" type="number" class="form-control">
+                  <span class="form-control-clear glyphicon glyphicon-remove-circle form-control-feedback hidden"></span>
+                </div>
+              </div>
+              <p></br>*Please ensure your phone number is in <a href="https://en.wikipedia.org/wiki/E.164">E.164 format</a>.
+              </br>(E.g. 18888988733, +18888988733)</p>
+              <p></br><input class="btn btn-lg upload-btn" type="submit" value="Submit" name="submit"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/mvc/3.0/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+$('.has-clear input[type="text"]').on('input propertychange', function() {
+  var $this = $(this);
+  var visible = Boolean($this.val());
+  $this.siblings('.form-control-clear').toggleClass('hidden', !visible);
+}).trigger('propertychange');
+$('.form-control-clear').click(function() {
+  $(this).siblings('input[type="text"]').val('')
+    .trigger('propertychange').focus();
+});
+</script>
+
+<script>
+function phonenumber(inputtxt)
+{
+    var phoneno = /^\+?[1-9]\d{1,14}$/;
+    if((inputtxt.match(phoneno)))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+$("form").submit(function (e) {
+    var text = $('form').find('input[name="ANI"]').val();
+    var isPhoneNumber = phonenumber(text);
+    if (!isPhoneNumber) {
+        e.preventDefault();
+        alert("Phone Number format not recognized.");
+        return false;
+    }
+}); 
+</script>
+
+</body>
+</html>
